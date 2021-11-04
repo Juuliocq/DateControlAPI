@@ -8,10 +8,10 @@ public class ShopDTO {
 	
 	public ShopDTO() {}
 	
-	public ShopDTO(Long id, String name, CityDTO cityDTO) {
+	public ShopDTO(Long id, String name, CityDTO city) {
 		this.id = id;
 		this.name = name;
-		this.city = cityDTO;
+		this.city = city;	
 	}
 
 	public Long getId() {
@@ -30,11 +30,11 @@ public class ShopDTO {
 		this.name = name;
 	}
 
-	public CityDTO getCityDTO() {
+	public CityDTO getCity() {
 		return city;
 	}
 
-	public void setCityDTO(CityDTO cityDTO) {
-		this.city = cityDTO;
+	public void setCity(CityDTO city) {
+		this.city = city;
 	}
 }

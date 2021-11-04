@@ -11,6 +11,18 @@ public class ProductDTO {
 	private int quantity;
 	private ShopDTO shop;
 	
+	public ProductDTO() {}
+	
+	public ProductDTO(Long id, String name, String barCode, Date expirationDate, int quantity, ShopDTO shop) {
+		this.id = id;
+		this.name = name;
+		this.barCode = barCode;
+		this.expirationDate = expirationDate;
+		this.quantity = quantity;
+		this.shop = shop;
+	}
+
+
 	public Long getId() {
 		return id;
 	}
