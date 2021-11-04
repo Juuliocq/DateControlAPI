@@ -17,8 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.log.api.assembler.ProductAssembler;
-import com.log.api.model.ProductRepresentationalModel;
-import com.log.api.model.input.ProductInput;
+import com.log.api.dto.ProductDTO;
 import com.log.domain.model.Product;
 import com.log.domain.service.CatalogProductService;
 
@@ -36,37 +35,37 @@ public class ProductController {
 	}
 	
 	@GetMapping
-	public List<ProductRepresentationalModel> list(){
-		return productAssembler.toCollectionModel(catalogProductService.listAll());
+	public List<ProductDTO> list(){
+		return productAssembler.toCollectionDTO(catalogProductService.listAll());
 	}
 	
 	@GetMapping("/{productId}")
-	public ResponseEntity<ProductRepresentationalModel> find(@PathVariable long productId) throws Exception {
+	public ResponseEntity<ProductDTO> find(@PathVariable long productId) throws Exception {
 		
 		return catalogProductService.findById(productId)
-				.map(product -> ResponseEntity.ok(productAssembler.toModel(product)))
+				.map(product -> ResponseEntity.ok(productAssembler.toDTO(product)))
 				.orElse(ResponseEntity.notFound().build());
 	}
 	
 	@GetMapping("/find/{productName}")
-	public List<ProductRepresentationalModel> findByName(@PathVariable String productName) throws Exception{
-		return productAssembler.toCollectionModel(catalogProductService.findByNameContaining(productName));
+	public List<ProductDTO> findByName(@PathVariable String productName) throws Exception{
+		return productAssembler.toCollectionDTO(catalogProductService.findByNameContaining(productName));
 	}
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public ProductRepresentationalModel add(@Valid @RequestBody ProductInput productInput) {
-		Product product = productAssembler.toEntity(productInput);
+	public ProductDTO add(@Valid @RequestBody ProductDTO productDTO) {
+		Product product = productAssembler.toEntity(productDTO);
 		
-		return productAssembler.toModel(catalogProductService.save(product));
+		return productAssembler.toDTO(catalogProductService.save(product));
 	}
 	
 	@PutMapping("/{productId}")
-	public ResponseEntity<Product> update(@PathVariable Long productId, @Valid @RequestBody ProductInput productInput){
+	public ResponseEntity<Product> update(@PathVariable Long productId, @Valid @RequestBody ProductDTO productDTO){
 		if(!catalogProductService.existsById(productId)) {
 			return ResponseEntity.notFound().build();
 		} else {
-    		Product product = productAssembler.toEntity(productInput);
+    		Product product = productAssembler.toEntity(productDTO);
     		product.setId(productId);
 			
 			catalogProductService.save(product);

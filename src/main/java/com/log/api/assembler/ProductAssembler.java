@@ -6,8 +6,7 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-import com.log.api.model.ProductRepresentationalModel;
-import com.log.api.model.input.ProductInput;
+import com.log.api.dto.ProductDTO;
 import com.log.domain.model.Product;
 
 @Component
@@ -20,17 +19,17 @@ public class ProductAssembler {
 		this.modelMapper = modelMapper;
 	}
 	
-	public ProductRepresentationalModel toModel(Product product) {
-		return modelMapper.map(product, ProductRepresentationalModel.class);
+	public ProductDTO toDTO(Product product) {
+		return modelMapper.map(product, ProductDTO.class);
 	}
 	
-	public List<ProductRepresentationalModel> toCollectionModel(List<Product> products) {
+	public List<ProductDTO> toCollectionDTO(List<Product> products) {
 		return products.stream()
-				.map(this::toModel)
+				.map(this::toDTO)
 				.collect(Collectors.toList());
 	}
 	
-	public Product toEntity(ProductInput productInput) {
-		return modelMapper.map(productInput, Product.class);
+	public Product toEntity(ProductDTO product) {
+		return modelMapper.map(product, Product.class);
 	}
 }
